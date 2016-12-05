@@ -16,7 +16,7 @@ export interface IWorkerMessage<T>{
 
 export default class WorkerPool{
 
-    constructor(private _settings?: cluster.ClusterSetupMasterSettings, private _maxWorkers?: number, private _workerTimeout: number = 500){
+    constructor(private _settings?: cluster.ClusterSetupMasterSettings, private _maxWorkers?: number, private _workerTimeout: number = 1000){
     }
 
     static numberOfCores(): number{
@@ -43,7 +43,7 @@ export default class WorkerPool{
             return this.getWorker()
                 .flatMap(worker => {
 
-                    const disconnectStream = this.createWorkerDosconnectStream(worker);
+                    const disconnectStream = this.createWorkerDisconnectStream(worker);
 
                     const messageStream = this.createWorkerMessageStream<T>(worker)
 
@@ -61,7 +61,7 @@ export default class WorkerPool{
 
     //  Private Methods
 
-    private createWorkerDosconnectStream(worker: cluster.Worker){
+    private createWorkerDisconnectStream(worker: cluster.Worker){
         return Rx.Observable.fromEvent(<any>worker,"disconnect")
             .flatMap(() => {
                 console.log(`Error doing work: Worker Diconnected`);

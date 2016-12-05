@@ -7,7 +7,8 @@
   "scripts": {
     "compile": "tsc",
     "start": "node example/example.js",
-    "launch": "npm run compile && npm start"
+    "launch": "npm run compile && npm start",
+    "postinstall": "typings install"
   },
   "repository": {
     "type": "git",
