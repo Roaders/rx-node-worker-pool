@@ -2,9 +2,12 @@
   "name": "rx-node-worker-pool",
   "version": "1.0.0",
   "description": "A library for managing node workers in a reactive way",
-  "main": "lib/index.js",
+  "main": "lib/workerPool.js",
+  "typings": "lib/workerPool.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "tsc",
+    "start": "node example/example.js",
+    "launch": "npm run compile && npm start"
   },
   "repository": {
     "type": "git",
@@ -21,5 +24,12 @@
   "bugs": {
     "url": "https://github.com/Roaders/rx-node-worker-pool/issues"
   },
-  "homepage": "https://github.com/Roaders/rx-node-worker-pool#readme"
+  "homepage": "https://github.com/Roaders/rx-node-worker-pool#readme",
+  "devDependencies": {
+    "typescript": "^2.0.10",
+    "typings": "^2.0.0"
+  },
+  "dependencies": {
+    "rx": "^4.1.0"
+  }
 }
