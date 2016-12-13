@@ -3,6 +3,8 @@ import os = require('os');
 import cluster = require('cluster');
 import Rx = require("rx");
 
+import { IStreamItemTimerInfo, StreamItemTimer, IRate } from "stream-item-timer"
+
 export enum MessageType{
     message,
     error
@@ -14,20 +16,48 @@ export interface IWorkerMessage<T>{
     errorMessage?: string;
 }
 
-export default class WorkerPool{
+export default class WorkerPool implements IStreamItemTimerInfo{
 
-    constructor(private _settings?: cluster.ClusterSetupMasterSettings, private _maxWorkers?: number, private _workerTimeout: number = 1000){
+    constructor(private _settings?: cluster.ClusterSetupMasterSettings, 
+        private _maxWorkers?: number, 
+        private _workerTimeout: number = 1000,
+        progressFunction: () => void = null){
+        
+        this._timer = new StreamItemTimer(progressFunction);
     }
 
     static numberOfCores(): number{
         return process.env.NUMBER_OF_PROCESSORS ? process.env.NUMBER_OF_PROCESSORS : os.cpus.length;
     }
 
+    private _timer: StreamItemTimer;
+
     private _allWorkers: cluster.Worker[] = [];
     private _availableWorkers: cluster.Worker[] = [];
     private _waitingForWorkers: Rx.Subject<cluster.Worker>[] = [];
 
     //  Public Methods
+
+
+    get inProgress(): number{
+        return this._timer.inProgress;
+    }
+
+    get total(): number{
+        return this._timer.total;
+    }
+
+    get complete(): number{
+        return this._timer.complete;
+    }
+
+    getAverageRate(count?: number): IRate | null{
+        return this._timer.getAverageRate(count);
+    }
+
+    getOverallRate(count?: number): IRate | null{
+        return this._timer.getOverallRate(count);
+    }
 
     public createPool(): Rx.Observable<number>{
         const cpuCount = WorkerPool.numberOfCores();
@@ -40,6 +70,7 @@ export default class WorkerPool{
 
     public doWork<T>(message: any): Rx.Observable<T>{
         return Rx.Observable.defer(() => {
+            const itemTimer = this._timer.startItemTimer();
             return this.getWorker()
                 .flatMap(worker => {
 
@@ -50,7 +81,8 @@ export default class WorkerPool{
                     worker.send(message);
                     
                     return messageStream.merge(disconnectStream)
-                        .take(1);
+                        .take(1)
+                        .do(() => itemTimer.stop());
                 });
         });
     }

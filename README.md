@@ -67,5 +67,5 @@ An example multi-threaded app can be installed and run with the following comman
 git clone https://github.com/Roaders/rx-node-worker-pool.git
 cd rx-node-worker-pool
 npm install
-npm run launch
+npm start
 ```

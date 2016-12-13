@@ -5,9 +5,9 @@
   "main": "lib/workerPool.js",
   "typings": "lib/workerPool.d.ts",
   "scripts": {
-    "compile": "tsc",
+    "build": "tsc",
+    "prestart": "npm run build",
     "start": "node example/example.js",
-    "launch": "npm run compile && npm start",
     "postinstall": "typings install"
   },
   "repository": {
@@ -31,6 +31,7 @@
     "typings": "^2.0.0"
   },
   "dependencies": {
-    "rx": "^4.1.0"
+    "rx": "^4.1.0",
+    "stream-item-timer": "^2.1.0"
   }
 }
