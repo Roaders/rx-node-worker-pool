@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "rx": "^4.1.0",
-    "stream-item-timer": "^3.0.0"
+    "stream-item-timer": "^3.0.1"
   }
 }
