@@ -1,5 +1,7 @@
 # rx-node-worker-pool
 
+[![Known Vulnerabilities](https://snyk.io/test/github/roaders/rx-node-worker-pool/badge.svg)](https://snyk.io/test/github/roaders/rx-node-worker-pool)
+
 A library for managing node workers in a reactive way.
 
 This library lets you use the parallel processing power of multiple cores in your reactive application whilt hiding the implementation details.
