@@ -1,5 +1,7 @@
 # rx-node-worker-pool
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Roaders/rx-node-worker-pool.svg)](https://greenkeeper.io/)
+
 [![Known Vulnerabilities](https://snyk.io/test/github/roaders/rx-node-worker-pool/badge.svg)](https://snyk.io/test/github/roaders/rx-node-worker-pool)
 
 A library for managing node workers in a reactive way.
