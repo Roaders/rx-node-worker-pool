@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Roaders/rx-node-worker-pool#readme",
   "devDependencies": {
-    "typescript": "^2.0.10",
+    "typescript": "^2.6.1",
     "typings": "^2.0.0"
   },
   "dependencies": {
